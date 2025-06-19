@@ -1,0 +1,56 @@
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+    Node(int d) { data = d; }
+}
+class SLL {
+    Node head;
+    void insert(int d) {
+        Node n = new Node(d);
+        if (head == null) head = n;
+        else {
+            Node t = head;
+            while (t.next != null) t = t.next;
+            t.next = n;
+        }
+    }
+    Node reverseInGroups(Node node, int k) {
+        Node prev = null, curr = node, next = null;
+        int count = 0;
+        while (curr != null && count < k) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            count++;
+        }     
+        if (next != null)
+            node.next = reverseInGroups(next, k);
+
+        return prev;
+    }
+
+    void display() {
+        for (Node t = head; t != null; t = t.next)
+            System.out.print(t.data + (t.next != null ? " -> " : ""));
+        System.out.println();
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        SLL list = new SLL();
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        System.out.println("Enter " + n + " values:");
+        for (int i = 0; i < n; i++)
+        list.insert(sc.nextInt());
+        System.out.print("Enter group size k: ");
+        int k = sc.nextInt();
+        list.head = list.reverseInGroups(list.head, k);
+        System.out.println("List after reversing in groups of " + k + ":");
+        list.display();
+    }
+}
