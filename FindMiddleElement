@@ -1,0 +1,49 @@
+import java.util.*;
+class Node {
+    int data; Node next;
+    Node(int d) { data = d; }
+}
+class SLL {
+    Node head;
+    void insert(int d) {
+        Node n = new Node(d);
+        if (head == null) head = n;
+        else {
+            Node t = head;
+            while (t.next != null) t = t.next;
+            t.next = n;
+        }
+    }
+    void display() {
+        Node t = head;
+        while (t != null) {
+            System.out.print(t.data + (t.next != null ? " -> " : ""));
+            t = t.next;
+        }
+        System.out.println();
+    }
+    void findMiddle() {
+        if (head == null) {
+            System.out.println("Empty list.");
+            return;
+        }
+        Node s = head, f = head;
+        while (f != null && f.next != null) {
+            s = s.next;
+            f = f.next.next;
+        }
+        System.out.println("Middle element: " + s.data);
+    }
+}
+public class Main {
+    public static void main(String[] a) {
+        Scanner sc = new Scanner(System.in);
+        SLL list = new SLL();
+
+        System.out.print("Enter count: ");
+        int n = sc.nextInt();
+        System.out.println("Enter " + n + " elements:");
+        while (n-- > 0) list.insert(sc.nextInt());
+        list.findMiddle();
+    }
+}
