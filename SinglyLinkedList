@@ -1,0 +1,97 @@
+import java.util.Scanner;
+
+class Node {
+    int data; Node next;
+    Node(int d) { data = d; }
+}
+
+class SLL {
+    Node head;
+
+    void insertBeg(int d) {
+        Node n = new Node(d); n.next = head; head = n;
+    }
+
+    void insertEnd(int d) {
+        Node n = new Node(d);
+        if (head == null) { head = n; return; }
+        Node t = head;
+        while (t.next != null) t = t.next;
+        t.next = n;
+    }
+
+    void insertPos(int p, int d) {
+        if (p == 0) { insertBeg(d); return; }
+        Node t = head;
+        for (int i = 1; i < p && t != null; i++) t = t.next;
+        if (t == null) { System.out.println("Invalid pos"); return; }
+        Node n = new Node(d); n.next = t.next; t.next = n;
+    }
+
+    void delBeg() {
+        if (head == null) { System.out.println("Empty"); return; }
+        head = head.next;
+    }
+
+    void delEnd() {
+        if (head == null) { System.out.println("Empty"); return; }
+        if (head.next == null) { head = null; return; }
+        Node t = head;
+        while (t.next.next != null) t = t.next;
+        t.next = null;
+    }
+
+    void delPos(int p) {
+        if (head == null) { System.out.println("Empty"); return; }
+        if (p == 0) { delBeg(); return; }
+        Node t = head;
+        for (int i = 1; i < p && t.next != null; i++) t = t.next;
+        if (t.next == null) { System.out.println("Invalid pos"); return; }
+        t.next = t.next.next;
+    }
+
+    void display() {
+        if (head == null) { System.out.println("Empty"); return; }
+        Node t = head;
+        while (t != null) {
+            System.out.print(t.data);
+            if (t.next != null) System.out.print(" -> ");
+            t = t.next;
+        }
+        System.out.println();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        SLL l = new SLL();
+
+        System.out.print("Enter the number of value to add: ");
+        int n = sc.nextInt();
+        System.out.println("Enter " + n + " values:");
+        for (int i = 0; i < n; i++) l.insertEnd(sc.nextInt());
+
+        System.out.println("Initial:");
+        l.display();
+
+        System.out.print("\nInsert at beginning: ");
+        l.insertBeg(sc.nextInt());
+        l.display();
+
+        System.out.print("\nInsert at pos and val: ");
+        int p = sc.nextInt(), d = sc.nextInt();
+        l.insertPos(p, d);
+        l.display();
+
+        l.delBeg(); System.out.println("\nAfter deleting first:");
+        l.display();
+
+        l.delEnd(); System.out.println("After deleting last:");
+        l.display();
+
+        System.out.print("\nEnter pos to delete: ");
+        l.delPos(sc.nextInt());
+        l.display();
+    }
+}
