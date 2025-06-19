@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+    Node(int d) { data = d; }
+}
+class SLL {
+    Node head;
+    void insert(int d) {
+        Node n = new Node(d);
+        if (head == null) head = n;
+        else {
+            Node t = head;
+            while (t.next != null) t = t.next;
+            t.next = n;
+        }
+    }
+    void deleteEveryK(int k) {
+        if (k <= 1) { head = null; return; }
+        Node temp = head;
+        int count = 1;
+        while (temp != null && temp.next != null) {
+            if ((count + 1) % k == 0) {
+                temp.next = temp.next.next;
+                count++; // skip the deleted node
+            } else {
+                temp = temp.next;
+                count++;
+            }
+        }
+    }
+    void display() {
+        int count = 0;
+        for (Node t = head; t != null; t = t.next, count++)
+            System.out.print(t.data + (t.next != null ? " -> " : ""));
+        System.out.println("\nTotal nodes: " + count);
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        SLL list = new SLL();
+        System.out.print("Enter number of nodes: ");
+        int n = sc.nextInt();
+        System.out.println("Enter " + n + " values:");
+        for (int i = 0; i < n; i++) list.insert(sc.nextInt());
+        System.out.print("Enter k (delete every kᵗʰ node): ");
+        int k = sc.nextInt();
+       list.deleteEveryK(k);
+        System.out.println("After deleting every " + k + "th node:");
+        list.display();
+    }
+}
